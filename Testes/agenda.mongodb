@@ -1,0 +1,75 @@
+use ('Agenda');
+
+db.contato.insert([
+    {
+        nome: "Ingrid",
+        telefone: "41999995555",
+        email: "ingrid@email.com",
+        cidade: "Curitiba",
+        dataCadastro: new Date('2024-02-05')
+    },
+    {
+        nome: "Mariana",
+        telefone: "41888885555",
+        email: "mariana@email.com",
+        cidade: "Curitiba",
+        dataCadastro: new Date('2024-02-05')
+    },
+    {
+        nome: "Juliana",
+        telefone: "41999996666",
+        email: "juliana@email.com",
+        cidade: "Curitiba",
+        dataCadastro: new Date('2024-02-05')
+    },
+    {
+        nome: "Milena",
+        telefone: "4111115555",
+        email: "milena@email.com",
+        cidade: "Curitiba",
+        dataCadastro: new Date('2024-02-05')
+    },
+    {
+        nome: "Helena",
+        telefone: "41999992222",
+        email: "helena@email.com",
+        cidade: "Curitiba",
+        dataCadastro: new Date('2024-02-05')
+    },
+])
+
+db.contato.find()
+db.contato.find({ nome : {$regex : "^A"} })
+db.contato.find({ telefone : {$regex :"^9"} })
+db.contato.find({ email : {$regex : "gmail.com$"} })
+db.contato.find({ cidade : "São Paulo" })
+db.contato.find({ data : {$gt : new Data('2023-01-01')} })
+
+db.contato.updateOne(
+    { nome: "Ingrid" },
+    { $set:{ telefone: "Alterado", email: "new@gmail.com" }}
+);
+
+db.contato.updateOne(
+    {$or: [{ nome: 'Ingrid'}, {email: 'ingrid@email.com'}]},
+    { $set:{cidade: 'São Paulo'}}
+)
+
+db.contato.updateOne(
+    { nome: "Ingrid" },
+    { $set:{ telefone: "Alterado", email: "new@gmail.com" }}
+);
+
+db.contato.updateOne(
+    {$or: [{ nome: 'Ingrid'}, {email: 'ingrid@email.com'}]},
+    { $set:{cidade: 'São Paulo'}}
+)
+
+db.contato.deleteMany(
+    {$or: [{ nome: 'Ingrid'}, {telefone: '4111115555'}]},
+)
+
+
+db.contato.deleteMany(
+    { cidade: /Curitiba/}
+)

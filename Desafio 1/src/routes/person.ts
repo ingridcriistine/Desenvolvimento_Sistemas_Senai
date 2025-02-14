@@ -36,21 +36,46 @@ router
     .put('/usuarios/:id', (req: Request, res: Response) => {
         const { id } = req.params;
         const { nome, sobrenome } = req.body;
-
-        res.status(200).send(`Pessoa com o id: ${id} foi atualizado para ${nome} ${sobrenome}`)
+        const user = people.find(user => user.id === parseInt(id));
+        
+        if(user) {
+            user.nome = nome;
+            user.sobrenome = sobrenome;
+            res.status(200).send(`Pessoa com o id: ${id} foi atualizado para ${nome} ${sobrenome}`)
+        }
+        
+        res.status(200).send("Pessoa não encontrada");
     })
 
     .patch('/usuarios/:id', (req: Request, res: Response) => {
         const { id } = req.params;
-        const { nome } = req.body;
-
-        res.send(`Nome da pessoa com ID ${id} foi atualizado para: ${nome}`);
+        const { nome, sobrenome } = req.body;
+        const user = people.find(user => user.id === parseInt(id));
+        
+        if(user) {
+            if(nome) {
+                user.nome = nome;
+            }
+            if(sobrenome) {
+                user.sobrenome = sobrenome;
+            }
+            res.send(`Nome da pessoa com ID ${id} foi atualizado para: ${nome} ${sobrenome}`);
+        }
+        
+        res.status(200).send("Pessoa não encontrada");
     })
 
     .delete('/usuarios/:id', (req: Request, res: Response) => {
         const { id } = req.params;
+        const user = people.findIndex(user => user.id === parseInt(id));
+        
+        if(user) {
+            people.splice(user, 1)
+            res.status(200).send(`Pessoa com o id: ${id} foi deletada `)
+       }
+        
+        res.status(200).send("Pessoa não encontrada");
 
-        res.status(200).send(`Pessoa com o id: ${id} foi deletada `)
     })
 
 export default router;
